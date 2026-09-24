@@ -12,7 +12,7 @@ canvas{position:fixed;inset:0;display:block}
 #hint.off{opacity:0!important;animation:none}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:.9}}
 
-#txt{position:fixed;left:6vw;top:50%;transform:translateY(-50%);width:44vw;pointer-events:none;opacity:0;transition:opacity 1s}
+#txt{position:fixed;left:6vw;top:50%;transform:translateY(-50%);width:50vw;pointer-events:none;opacity:0;transition:opacity 1s}
 #txt.show{opacity:1}
 h1{font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif;font-weight:800;letter-spacing:.06em;line-height:1.2;font-size:min(3.2vw,6.5vh);margin-bottom:.9em;color:#ffd23f;text-shadow:0 0 14px rgba(255,190,30,.55)}
 .logo{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.22em;margin-left:.35em;transform:scale(0) rotate(-120deg);transition:transform 1s cubic-bezier(.34,1.56,.64,1)}
@@ -20,12 +20,10 @@ h1{font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif;font-weight:800;letter
 .logo svg{width:100%;height:100%;animation:spin 14s linear infinite;filter:drop-shadow(0 0 6px rgba(255,200,40,.7))}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.poem,.final{font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,'Times New Roman',serif;font-style:normal;font-weight:400;text-align:left;letter-spacing:.01em;text-shadow:0 0 8px #000,0 0 16px #000}
-.poem{color:#f4efe4;font-size:min(2.1vw,4.4vh);line-height:1.5}
-.poem > span{display:block}
+.poem{font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,'Times New Roman',serif;font-style:normal;font-weight:400;text-align:left;letter-spacing:.01em;text-shadow:0 0 8px #000,0 0 16px #000; color:#f4efe4;font-size:min(1.9vw,3.8vh);line-height:1.5; margin-bottom: 0.5em;}
+.poem > span{display:block; margin-bottom: 8px;}
 .poem .ch{display:inline}
-.final{margin-top:1.4em;color:#f4efe4;font-size:min(2.1vw,4.4vh);line-height:1.5}
-.sign{margin-top:1.3em;text-align:right;font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;font-style:italic;color:#ffd96a;font-size:min(1.8vw,3.8vh);letter-spacing:.02em;text-shadow:0 0 8px #000,0 0 14px rgba(255,190,30,.35)}
+.sign{margin-top:1.3em;text-align:right;font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;font-style:italic;color:#ffd96a;font-size:min(1.8vw,3.5vh);letter-spacing:.02em;text-shadow:0 0 8px #000,0 0 14px rgba(255,190,30,.35)}
 .sign::before{content:"— ";opacity:0;transition:opacity .6s}
 .sign.on::before{opacity:1}
 
@@ -56,14 +54,13 @@ h1{font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif;font-weight:800;letter
 @media (orientation:portrait){
   #txt{top:max(5vh,env(safe-area-inset-top));transform:none;width:88vw}
   h1{font-size:min(6vw,3.8vh)}
-  .poem,.final{font-size:min(4.3vw,2.6vh)}
-  .sign{font-size:min(3.9vw,2.4vh)}
+  .poem{font-size:min(4vw,2.5vh)}
+  .sign{font-size:min(3.8vw,2.4vh)}
 }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
-<!-- Guarda la canción con el nombre "musica.mp3" en la misma carpeta que este archivo -->
 <audio id="music" src="musica.mp3" loop preload="auto"></audio>
 <button id="mute" aria-label="Silenciar música">🔊</button>
 <div id="hint">Toca la pantalla</div>
@@ -82,8 +79,9 @@ h1{font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif;font-weight:800;letter
     </g>
     <circle r="13" fill="#7a4300" stroke="#ffcf40" stroke-width="3"/>
   </svg></span></h1>
-  <p class="poem"><span></span><span></span><span></span></p>
-  <p class="final"></p>
+  
+  <!-- 5 spans para las 5 líneas de MESSAGE -->
+  <p class="poem"><span></span><span></span><span></span><span></span><span></span></p>
   <p class="sign"></p>
 </div>
 
@@ -95,20 +93,22 @@ h1{font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif;font-weight:800;letter
     <button class="x" aria-label="Cerrar">×</button>
     <span class="fl">✿</span>
     <p></p>
-    <!-- Guarda la foto con el nombre "foto.jpg" en la misma carpeta que este archivo -->
     <img class="photo" src="foto.jpg" alt="" onerror="this.style.display='none'">
   </div>
 </div>
 
 <script>
 const TITLE = "FELIZ DÍA DE LAS FLORES AMARILLAS";
-const POEM = [
-  "¡Feliz día de las flores amarillas para la loca más linda!",
+
+const MESSAGE = [
+  "¡Feliz día de las flores amarillas para la loca más linda! 🌼",
   "Sé que tu novio te va a engreír bastante,",
   "pero no quería dejar pasar el día sin mandarte este detalle.",
   "Gracias por ser la que me escucha al menos un rato.",
   "¡Te aprecio un montón!"
 ];
+
+const SIGN = "\"Just a little minute, okay?\"";
 const NOTE = "Para nada estaba aburrido jsjsjsjs";
 
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
@@ -146,7 +146,7 @@ FL.forEach((f,i)=>{
   f.leaves=[{t:.45,side:s,s:.085},{t:.66,side:-s,s:.065}];
 });
 const bloomEnd=Math.max(...FL.map(f=>f.end));
-const rainDur=3.4;                       // lluvia de pétalos antes de moverse
+const rainDur=3.4;
 const moveStart=bloomEnd+rainDur, moveDur=2.4;
 
 function bez(P,t){const u=1-t,a=u*u*u,b=3*u*u*t,c=3*u*t*t,d=t*t*t;
@@ -266,10 +266,10 @@ function spawnPetal(ox,gy,S){
 }
 function updPetals(dt,gy){
   const k=Math.min(W,H)/800;
-  const wind=-(35+30*Math.sin(time*.6))*k;           // ráfagas de viento hacia la izquierda
+  const wind=-(35+30*Math.sin(time*.6))*k;
   for(let i=fallP.length-1;i>=0;i--){
     const p=fallP[i];
-    p.vx=lerp(p.vx,wind*1.6,dt*.5);                   // el viento los va empujando más
+    p.vx=lerp(p.vx,wind*1.6,dt*.5);
     p.x+=p.vx*dt+Math.sin(time*1.4+p.ph)*14*k*dt;
     p.y+=p.vy*dt+Math.sin(time*2+p.ph)*10*k*dt; p.rot+=p.vr*dt; p.flip+=p.fs*dt;
     p.a=Math.min(1,p.a+dt*2);
@@ -365,7 +365,6 @@ function frame(now){
     for(const f of FL) drawHead(f,t);
     ctx.restore();
 
-    // lluvia de pétalos: fuerte al terminar la flor, luego suave
     if(t>bloomEnd-.3 && fallP.length<170){
       const strong=t<moveStart+moveDur*.5;
       const rate=strong?16:2.5;
@@ -423,32 +422,33 @@ async function typeArr(arr,ms,check,car){
     if(!check()) return false;
     s.classList.add('v'); s.after(car);
     const c=s.textContent;
-    await sleep(c===' '?ms*.6:(/[,.]/.test(c)?ms*6:ms));
+    await sleep(c===' '?ms*.4:(/[,.]/.test(c)?ms*4:ms*.8)); 
   }
   return check();
 }
 async function runText(){
   const my=++token, ok=()=>my===token;
-  const tEl=$('.tt'), lines=[...document.querySelectorAll('.poem > span')], fEl=$('.final'), sEl=$('.sign');
-  const tt=prep(tEl,TITLE), pl=lines.map((el,i)=>prep(el,POEM[i])), fin=prep(fEl,FINAL), sg=prep(sEl,SIGN);
+  const tEl=$('.tt'), lines=[...document.querySelectorAll('.poem > span')], sEl=$('.sign');
+  
+  const tt=prep(tEl,TITLE), pl=lines.map((el,i)=>prep(el,MESSAGE[i])), sg=prep(sEl,SIGN);
+  
   sEl.classList.remove('on');
   txtEl.classList.add('show');
   tEl.prepend(caret);
   await sleep(800); if(!ok()) return;
-  if(!await typeArr(tt,65,ok,caret)) return;
+  if(!await typeArr(tt,60,ok,caret)) return;
   $('.logo').classList.add('on');
-  await sleep(1000); if(!ok()) return;
+  await sleep(800); if(!ok()) return;
+  
   for(let i=0;i<pl.length;i++){
     lines[i].prepend(caret);
-    if(!await typeArr(pl[i],55,ok,caret)) return;
-    await sleep(420); if(!ok()) return;
+    if(!await typeArr(pl[i],45,ok,caret)) return;
+    await sleep(300); if(!ok()) return;
   }
-  await sleep(600); if(!ok()) return;
-  fEl.prepend(caret);
-  if(!await typeArr(fin,42,ok,caret)) return;
-  await sleep(900); if(!ok()) return;
+  
+  await sleep(700); if(!ok()) return;
   sEl.classList.add('on'); sEl.prepend(caret);
-  if(!await typeArr(sg,70,ok,caret)) return;
+  if(!await typeArr(sg,60,ok,caret)) return;
   await sleep(2200); if(!ok()) return;
   caret.remove();
   $('#again').classList.add('on');
@@ -463,7 +463,7 @@ async function openNote(){
   noteP.prepend(caret2);
   note.classList.add('on');
   await sleep(700); if(!ok()) return;
-  if(!await typeArr(arr,70,ok,caret2)) return;
+  if(!await typeArr(arr,55,ok,caret2)) return;
   await sleep(500); if(!ok()) return;
   photo.classList.add('on');
   await sleep(1800); if(ok()) caret2.remove();
