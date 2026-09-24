@@ -102,10 +102,14 @@ h1{font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif;font-weight:800;letter
 
 <script>
 const TITLE = "FELIZ DÍA DE LAS FLORES AMARILLAS";
-const POEM = ["Te quiero así como eres.", "Con todo lo bueno que no ves,", "con todo lo malo que dices tener."];
-const FINAL = "Si fluir significa construir algo sin apresurarlo, entonces quiero caminar ese proceso contigo.";
-const SIGN = "Just a little minute, okay?";
-const NOTE = "Todo lo que hago por ti lo hago porque quiero, porque me nace. No espero nada a cambio, pero sí me gustaría conocer esa parte tuya que también quiere demostrar.";
+const POEM = [
+  "¡Feliz día de las flores amarillas para la loca más linda!",
+  "Sé que tu novio te va a engreír bastante,",
+  "pero no quería dejar pasar el día sin mandarte este detalle.",
+  "Gracias por ser la que me escucha al menos un rato.",
+  "¡Te aprecio un montón!"
+];
+const NOTE = "Para nada estaba aburrido jsjsjsjs";
 
 const cv = document.getElementById('c'), ctx = cv.getContext('2d');
 let W, H, DPR;
@@ -495,7 +499,7 @@ addEventListener('pointerdown',e=>{
 $('#again').addEventListener('click',e=>{
   e.stopPropagation();
   token++; caret.remove();
-  txtEl.classList.remove('show'); $('.logo').classList.remove('on'); $('#again').classList.remove('on');
+  txtEl.classList.remove('show'); $('.logo').classList.remove('on');$('#again').classList.remove('on');
   state='idle'; tGrow=0; textStarted=false; bloomAll=0; groundA=0; parts=[]; rings=[]; fallP=[];
   hint.classList.remove('off');
 });
